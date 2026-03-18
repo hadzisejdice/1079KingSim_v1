@@ -255,15 +255,26 @@
     return ctas;
   }
 
-  function getActiveTab(){
-    const path = (location.pathname.split('/').pop() || 'index.html').toLowerCase();
-    const map = {
-      '': 'home', 'index.html': 'home',
-      'troops.html': 'troops', 'magic.html': 'magic', 'optiona.html': 'optiona',
-      'mystic.html': 'mystic', 'pvp.html': 'pvp', 'cb.html': 'cb'
-    };
-    return map[path] || 'home';
-  }
+function getActiveTab() {
+  const path = location.pathname
+    .replace(/\/+$/, '')      // remove trailing slash
+    .replace(/\.html$/, '')   // remove .html
+    .toLowerCase();
+
+  const last = path.split('/').pop();
+
+  // Map slugs to tabs
+  if (last === '' || last === 'index') return 'home';
+  if (last === 'troops') return 'troops';
+  if (last === 'heros' || last === 'heroes') return 'heroes';
+  if (last === 'magic') return 'magic';
+  if (last === 'optiona') return 'optiona';
+  if (last === 'mystic') return 'mystic';
+  if (last === 'pvp') return 'pvp';
+  if (last === 'cb') return 'cb';
+
+  return last; // fallback
+}
 
   function ensureAddTroops(ctas){
     let add = ctas.querySelector('a.btn-primary--compact');
